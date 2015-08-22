@@ -200,4 +200,23 @@ if (Meteor.isClient) {
     }
   });
 
+  Template.gif.helpers({
+    gfycat: function () {
+      if (this.href.indexOf("gfycat") !== -1) {
+
+        var last = this.href.lastIndexOf("/");
+
+        if(last == this.href.length)
+        {
+          this.href = this.href.substring(0, this.href.length - 1);
+          last = this.href.lastIndexOf("/");
+        }
+        this.gfylink = this.href.substring(last+1);
+
+        return true;
+      }
+
+      return false;
+    }
+  });
 }

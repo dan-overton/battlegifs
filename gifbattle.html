@@ -1,5 +1,13 @@
 <head>
   <title>gifbattle</title>
+    <script>
+        (function(d, t) {
+            var g = d.createElement(t),
+                    s = d.getElementsByTagName(t)[0];
+            g.src = 'http://assets.gfycat.com/js/gfyajax-0.517d.js';
+            s.parentNode.insertBefore(g, s);
+        }(document, 'script'));
+    </script>
 </head>
 
 <body>
@@ -71,5 +79,10 @@
 </template>
 
 <template name="gif">
-  <li>{{user}} - <img src="{{href}}"></li>
+    {{#if gfycat}}
+            <li>{{user}} - <img class="gfyitem" data-id="{{gfylink}}" /></li>
+    {{/if}}
+    {{#unless gfycat}}
+        <li>{{user}} - <img src="{{href}}"></li>
+    {{/unless}}
 </template>
