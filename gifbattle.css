@@ -2,31 +2,26 @@
 /* CSS declarations go here */
 body {
     font-family: 'Open Sans', sans-serif;
-    background-attachment: fixed;
-
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-
-    padding: 0;
-    margin: 0;
-
     font-size: 14px;
 }
 
 .container {
     max-width: 600px;
     margin: 0 auto;
-    min-height: 100%;
-    background: white;
+    min-height: 80vh;
+    position: relative;
+	background: #fff;
+	opacity:0.85;
 }
 
 header {
     background: #d2edf4;
     padding: 20px 15px 15px 15px;
     position: relative;
+}
+
+.content {
+	padding: 20px 15px 15px 15px;
 }
 
 #login-buttons {
@@ -108,14 +103,10 @@ header .hide-completed {
     margin-left: 5px;
 }
 
-#background {
-	position:absolute;
-	overflow:hidden;
-	min-height:100vh;
-	min-width:100vw;
-}
-
 #background .images {
+	position:absolute;
+	left:0;
+	top:0;
 	min-height:150vh;
 	min-width:150vw;
 }
@@ -124,8 +115,8 @@ header .hide-completed {
 	position:absolute;
 	left:0;
 	top:0;
-	min-height:150vh;
-	min-width:150vw;
+	min-height:100vh;
+	min-width:100vw;
 	background:#fff;
 	opacity:0.8;
 }
