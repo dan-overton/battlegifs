@@ -174,10 +174,15 @@ if (Meteor.isClient) {
     "submit .add-gif": function (event) {
       // Set the checked property to the opposite of its current value
       event.preventDefault();
+		var url = event.target.text.value;
+		var gifRe = /^http[s]?:\/\/.+\.gif$/g;
+		if(url === "") return;
+		if(url.match(gifRe).length === 0) return;
+
       var currentTurn = Turn.findOne({});
       var currentPlayer = currentTurn.isPlayerOne ? 1 : 2;
       var playerName = Players.findOne({number: currentPlayer}).name;
-      Gifs.insert({user: playerName, href: event.target.text.value, round: currentTurn.round});
+      Gifs.insert({user: playerName, href: url, round: currentTurn.round});
       if(currentPlayer == 2)
       {
         Meteor.call('openVoting');
