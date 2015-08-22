@@ -1,9 +1,7 @@
 /* CSS declarations go here */
 /* CSS declarations go here */
 body {
-    font-family: sans-serif;
-    background-color: #315481;
-    background-image: linear-gradient(to bottom, #315481, #918e82 100%);
+    font-family: 'Open Sans', sans-serif;
     background-attachment: fixed;
 
     position: absolute;
@@ -27,7 +25,6 @@ body {
 
 header {
     background: #d2edf4;
-    background-image: linear-gradient(to bottom, #d0edf5, #e1e5f0 100%);
     padding: 20px 15px 15px 15px;
     position: relative;
 }
@@ -37,7 +34,7 @@ header {
 }
 
 h1 {
-    font-size: 1.5em;
+    font-size: 3em;
     margin: 0;
     margin-bottom: 10px;
     display: inline-block;
@@ -109,6 +106,28 @@ header .hide-completed {
 
 .toggle-private {
     margin-left: 5px;
+}
+
+#background {
+	position:absolute;
+	overflow:hidden;
+	min-height:100vh;
+	min-width:100vw;
+}
+
+#background .images {
+	min-height:150vh;
+	min-width:150vw;
+}
+
+#background .opaquer {
+	position:absolute;
+	left:0;
+	top:0;
+	min-height:150vh;
+	min-width:150vw;
+	background:#fff;
+	opacity:0.8;
 }
 
 @media (max-width: 600px) {
