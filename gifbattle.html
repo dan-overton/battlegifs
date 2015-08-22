@@ -3,11 +3,27 @@
 </head>
 
 <body>
+	<div id="background">
+		<div class="images">
+	<img src="http://www.gifbin.com/bin/122011/1325704160_recursive_ron_swanson_mustache.gif">
+	<img src="http://www.gifbin.com/bin/122011/1325704160_recursive_ron_swanson_mustache.gif">
+	<img src="http://www.gifbin.com/bin/122011/1325704160_recursive_ron_swanson_mustache.gif">
+	<img src="http://www.gifbin.com/bin/122011/1325704160_recursive_ron_swanson_mustache.gif">
+	<img src="http://www.gifbin.com/bin/122011/1325704160_recursive_ron_swanson_mustache.gif">
+	<img src="http://www.gifbin.com/bin/122011/1325704160_recursive_ron_swanson_mustache.gif">
+	<img src="http://www.gifbin.com/bin/122011/1325704160_recursive_ron_swanson_mustache.gif">
+	<img src="http://www.gifbin.com/bin/122011/1325704160_recursive_ron_swanson_mustache.gif">
+	<img src="http://www.gifbin.com/bin/122011/1325704160_recursive_ron_swanson_mustache.gif">
+	<img src="http://www.gifbin.com/bin/122011/1325704160_recursive_ron_swanson_mustache.gif">
+	</div>
+	<div class="opaquer">&nbsp;</div>
+	</div>
 <div class="container">
   <header>
       <h1>GIF BATTLE!</h1>
       <button id="clearPlayers">Clear Players</button>
   </header>
+<section class="content">
   {{> joinForm}}
 
   <ul>
@@ -17,6 +33,7 @@
   </ul>
 
 
+</section>
 </div>
 
 <script>
@@ -36,18 +53,23 @@
     {{/if}}
     {{#unless gameOver}}
       {{#if noPlayers}}
-        <p>Where's the battle? Enter your name and become player one!</p>
-        <form class="player-one">
-            <input type="text" name="text" placeholder="Become player one!" />
-        </form>
+<form class="player-one">      
+ <p>Where's the battle? Become player one:
+			
+	            <input type="text" name="text" placeholder="Enter your name!" />
+	       
+	</p>
+         </form>
       {{/if}}
 
 
       {{#if onePlayer}}
         {{#if notAPlayer}}
-          <p>{{playerOne}} is waiting for battle, become player two!</p>
-          <form class="player-two">
-              <input type="text" name="text" placeholder="Become player two!" />
+<form class="player-two">
+          <p>{{playerOne}} is waiting for battle, become player two:
+          
+              <input type="text" name="text" placeholder="Enter your name!" />
+</p>
           </form>
         {{/if}}
         {{#if imPlayerOne}}
