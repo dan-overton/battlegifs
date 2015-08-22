@@ -177,7 +177,7 @@ if (Meteor.isClient) {
 		var url = event.target.text.value;
 		var gifRe = /^http[s]?:\/\/.+\.gif$/g;
 		if(url === "") return;
-		if(url.match(gifRe).length === 0) return;
+		//if(url.match(gifRe).length === 0) return;
 
       var currentTurn = Turn.findOne({});
       var currentPlayer = currentTurn.isPlayerOne ? 1 : 2;
@@ -206,6 +206,11 @@ if (Meteor.isClient) {
   });
 
   Template.gif.helpers({
+    gifId: function()
+    {
+      return this.round + "gif" + this.user;
+    },
+
     gfycat: function () {
       if (this.href.indexOf("gfycat") !== -1) {
 
@@ -222,6 +227,12 @@ if (Meteor.isClient) {
       }
 
       return false;
+    },
+
+    finish: function() {
+      var gfy = document.getElementById(this.round + "gif" + this.user);
+      var a = new gfyObject(gfy);
+      a.init();
     }
   });
 }
