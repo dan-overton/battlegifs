@@ -1,0 +1,75 @@
+<head>
+  <title>gifbattle</title>
+</head>
+
+<body>
+<div class="container">
+  <header>
+      <h1>GIF BATTLE!</h1>
+      <button id="clearPlayers">Clear Players</button>
+  </header>
+  {{> joinForm}}
+
+  <ul>
+    {{#each currentGifs}}
+      {{> gif}}
+    {{/each}}
+  </ul>
+</div>
+</body>
+
+<template name="joinForm">
+    {{#if gameOver}}
+      GAME OVER!
+      {{winnerName}} wins!
+    {{/if}}
+    {{#unless gameOver}}
+      {{#if noPlayers}}
+        <p>Where's the battle? Enter your name and become player one!</p>
+        <form class="player-one">
+            <input type="text" name="text" placeholder="Become player one!" />
+        </form>
+      {{/if}}
+
+
+      {{#if onePlayer}}
+        {{#if notAPlayer}}
+          <p>{{playerOne}} is waiting for battle, become player two!</p>
+          <form class="player-two">
+              <input type="text" name="text" placeholder="Become player two!" />
+          </form>
+        {{/if}}
+        {{#if imPlayerOne}}
+                <p>Waiting for player two!</p>
+        {{/if}}
+      {{/if}}
+
+    {{#if twoPlayers}}
+      <h2>CURRENT SCORE</h2>
+        <p>{{playerOne}}     {{playerOneVotes}} : {{playerTwoVotes}}     {{playerTwo}}</p>
+
+      {{#unless votingOpen}}
+       {{#if myTurn}}
+            <form class="add-gif">
+                <input type="text" name="text" placeholder="Select your GIF!!!" />
+            </form>
+        {{/if}}
+      {{/unless}}
+
+        {{#if notAPlayer}}
+          {{#if votingOpen}}
+          <form class="vote">
+              {{#if hasntVoted}}
+                <button id="voteOne">Vote for {{playerOne}}!</button>
+                <button id="voteTwo">Vote for {{playerTwo}}!</button>
+              {{/if}}
+          </form>
+          {{/if}}
+        {{/if}}
+    {{/if}}
+  {{/unless}}
+</template>
+
+<template name="gif">
+  <li>{{user}} - <img src="{{href}}"></li>
+</template>
