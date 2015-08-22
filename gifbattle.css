@@ -103,6 +103,15 @@ header .hide-completed {
     margin-left: 5px;
 }
 
+#background {
+	position:absolute;
+	left:0;
+	top:0;
+	min-height:100vh;
+	min-width:100vw;
+	overflow:hidden;
+}
+
 #background .images {
 	position:absolute;
 	left:0;
