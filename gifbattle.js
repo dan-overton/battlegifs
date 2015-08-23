@@ -105,6 +105,15 @@ if (Meteor.isClient) {
 
           return c.reverse();
       },
+
+      notAPlayer: function() {
+        return !(Session.get("playerOne") || Session.get("playerTwo"));
+      },
+
+      twoPlayers: function() {
+        return Games.findOne({},{sort:{Created:-1}}) !== undefined && Games.findOne({},{sort:{Created:-1}}).Players.length == 2;
+      },
+
       nickname: function(){
           return Session.get("nick");
       }
@@ -280,7 +289,7 @@ if (Meteor.isClient) {
       return null;
     }
   });
-  
+
 Template.chat.helpers({
   timeSinceThen: function(date) {
     var today = new Date();
