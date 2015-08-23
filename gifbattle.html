@@ -88,7 +88,14 @@
 
     {{#if twoPlayers}}
       <div class="ui header center aligned">
-        <h2>Round {{currentRound}}</h2>
+        <h2>
+          {{#if finalRound}}
+            Final Round
+          {{/if}}
+          {{#unless finalRound}}
+            Round {{currentRound}}
+          {{/unless}}
+        </h2>
       </div>
       <div class="ui grid statistics">
         <div class="eight wide column">

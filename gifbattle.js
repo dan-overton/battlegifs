@@ -123,6 +123,10 @@ if (Meteor.isClient) {
       return Turn.findOne({}).round;
     },
 
+    finalRound: function() {
+      return currentRound() === 3;
+    },
+
     playerOneVotes: function() {
       return Players.findOne({number: 1}).votes
     },
