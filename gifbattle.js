@@ -290,17 +290,19 @@ if (Meteor.isClient) {
     "submit .player-one": function (event) {
       // Set the checked property to the opposite of its current value
       event.preventDefault();
-	var id = Games.findOne({},{sort:{Created:-1}})._id;
+      var id = Games.findOne({},{sort:{Created:-1}})._id;
       Games.update(id, {$push:{Players:{name: event.target.text.value, votes: 0, imageUrl: 'player1.jpg' }}});
       Session.set("playerOne", true);
+      Session.set("nick", event.target.text.value);
     },
 
     "submit .player-two": function (event) {
       // Set the checked property to the opposite of its current value
       event.preventDefault();
-		var id = Games.findOne({},{sort:{Created:-1}})._id;
-		Games.update(id, {$push:{Players:{name: event.target.text.value, votes: 0, imageUrl: 'player2.jpg'}}});
+      var id = Games.findOne({},{sort:{Created:-1}})._id;
+      Games.update(id, {$push:{Players:{name: event.target.text.value, votes: 0, imageUrl: 'player2.jpg'}}});
       Session.set("playerTwo", true);
+      Session.set("nick", event.target.text.value);
     },
 
     "submit .add-gif": function (event) {

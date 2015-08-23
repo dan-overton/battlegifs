@@ -32,20 +32,24 @@
           {{/each}}
       </div>
       <button id="clearPlayers" class="ui button right floated">x</button>
-      {{#unless nickname}}
-      <form class="nick-form">
-          <div class="ui input fluid">
-              <input type="text" name="text" placeholder="Nickname ..." autocomplete="off" />
-          </div>
-      </form>
-      {{/unless}}
-{{#if nickname}}
+      {{#if twoPlayers}}
+        {{#if notAPlayer}}
+          {{#unless nickname}}
+          <form class="nick-form">
+              <div class="ui input fluid">
+                  <input type="text" name="text" placeholder="Nickname ..." autocomplete="off" />
+              </div>
+          </form>
+          {{/unless}}
+        {{/if}}
+      {{/if}}
+      {{#if nickname}}
       <form class="chat-form">
           <div class="ui input fluid">
           <input type="text" name="text" placeholder="Chat ..." autocomplete="off" />
               </div>
       </form>
-    {{/if}}
+      {{/if}}
   </header>
 <section class="main-content">
  {{> joinForm}}
