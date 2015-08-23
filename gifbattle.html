@@ -26,7 +26,7 @@
 <div class="container">
   <header>
       <img src="/CWjYKKBO.gif" />
-      <div id="chatbox">
+      <div class="ui feed">
           {{#each chats}}
               {{> chat }}
           {{/each}}
@@ -75,7 +75,21 @@
 </body>
 
 <template name="chat">
-    <p><span>{{nickname}}</span>: {{text}}</p>
+  <div class="event">
+    <div class="label">
+      <img src="{{imageUrl}}">
+    </div>
+    <div class="content">
+      <div class="summary">
+        <a class="user">
+          {{nickname}}
+        </a>: {{text}}
+        <div class="date">
+          {{timeSinceThen created}} minutes ago
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <template name="joinForm">

@@ -118,13 +118,15 @@ if (Meteor.isClient) {
           // Set the checked property to the opposite of its current value
           event.preventDefault();
           console.log("hello!");
-          Session.set("nick", event.target.text.value);
+          Session.set("nick", event.target.text.value );
+          Session.set("chatImageUrl", 'watcher.jpg' );
       },
       "submit .chat-form": function (event) {
           // Set the checked property to the opposite of its current value
           event.preventDefault();
           console.log("hello!");
-          Chats.insert({nickname:Session.get("nick"),text:event.target.text.value,created:new Date()});
+          var nick = Session.get("nick");
+          Chats.insert({nickname: Session.get("nick"), imageUrl: Session.get("chatImageUrl"), text:event.target.text.value, created: new Date()});
           event.target.text.value = "";
       }
   });
@@ -244,7 +246,6 @@ if (Meteor.isClient) {
 
       return (p1.votes / total) * 100;
     },
-
     votingOpen: function() {
 	var game = Games.findOne({},{sort:{Created:-1}});
       var open = game.Turn.isVotingOpen;
@@ -279,6 +280,14 @@ if (Meteor.isClient) {
       return null;
     }
   });
+  
+Template.chat.helpers({
+  timeSinceThen: function(date) {
+    var today = new Date();
+    var diffMs = (today - date);
+    return Math.round(((diffMs % 86400000) % 3600000) / 60000);
+  }
+});
 
   Template.joinForm.events({
 
@@ -293,7 +302,8 @@ if (Meteor.isClient) {
       var id = Games.findOne({},{sort:{Created:-1}})._id;
       Games.update(id, {$push:{Players:{name: event.target.text.value, votes: 0, imageUrl: 'player1.jpg' }}});
       Session.set("playerOne", true);
-      Session.set("nick", event.target.text.value);
+      Session.set("nick", event.target.text.value );
+      Session.set("chatImageUrl", 'player1.jpg' );
     },
 
     "submit .player-two": function (event) {
@@ -302,7 +312,8 @@ if (Meteor.isClient) {
       var id = Games.findOne({},{sort:{Created:-1}})._id;
       Games.update(id, {$push:{Players:{name: event.target.text.value, votes: 0, imageUrl: 'player2.jpg'}}});
       Session.set("playerTwo", true);
-      Session.set("nick", event.target.text.value);
+      Session.set("nick", event.target.text.value );
+      Session.set("chatImageUrl", 'player2.jpg' );
     },
 
     "submit .add-gif": function (event) {
