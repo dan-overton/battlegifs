@@ -255,7 +255,7 @@ if (Meteor.isClient) {
       // Set the checked property to the opposite of its current value
       event.preventDefault();
 		var url = event.target.text.value;
-		var gifRe = /^http[s]?:\/\/.+\.gif$|^http:\/\/[^.]+.gfycat.com\/.*$|^https:\/\/i.imgur.com\/[^.]+\.gifv$/ig;
+		var gifRe = /^http[s]?:\/\/.+\.gif$|^http:\/\/[^.]*\.?gfycat\.com\/.*$|^https:\/\/i\.imgur\.com\/[^.]+\.gifv$/ig;
 		if(url === "") return;
 		if(url.match(gifRe).length === 0) return;
 
