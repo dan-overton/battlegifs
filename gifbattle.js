@@ -234,16 +234,19 @@ if (Meteor.isClient) {
       // Set the checked property to the opposite of its current value
       event.preventDefault();
 		var url = event.target.text.value;
-		var gifRe = /^http[s]?:\/\/.+\.gif$|http:\/\/[^.]+.gfycat.com\/.*/g;
+		var gifRe = /^http[s]?:\/\/.+\.gif$|^http:\/\/[^.]+.gfycat.com\/.*$|^https:\/\/i.imgur.com\/[^.]+\.gifv$/g;
 		if(url === "") return;
-		//if(url.match(gifRe).length === 0) return;
+		if(url.match(gifRe).length === 0) return;
 
+      if(url === Gifs.findOne({},{sort:{Created:-1}}).href) return;
+
+      var id = Games.findOne({},{sort:{Created:-1}})._id;
       var currentTurn = Games.findOne({},{sort:{Created:-1}}).Turn;
       var currentPlayer = currentTurn.isPlayerOne ? 0 : 1;
       var playerName = Games.findOne({},{sort:{Created:-1}}).Players[currentPlayer].name;
-		var id = Games.findOne({},{sort:{Created:-1}})._id;
 
-      Gifs.insert({game: Games.findOne({},{sort:{Created:-1}})._id, href: url, round: currentTurn.round, Created: new Date(), user: playerName, player: currentPlayer, votes: 0});      if(currentPlayer == 1)
+      Gifs.insert({game: id, href: url, round: currentTurn.round, Created: new Date(), user: playerName, player: currentPlayer, votes: 0});
+      if(currentPlayer == 1)
       {
         Meteor.call('openVoting');
         Session.Set("voted", false);
