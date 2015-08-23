@@ -157,6 +157,31 @@ if (Meteor.isClient) {
       return Games.findOne({},{sort:{Created:-1}}).Players[1].votes
     },
 
+    progressBar: function() {
+      var p1 = Games.findOne({},{sort:{Created:-1}}).Players[0];
+      var p2 = Games.findOne({},{sort:{Created:-1}}).Players[1];
+
+      var total = p1.votes + p2.votes;
+
+      if (total === 0) {
+        return 50;
+      }
+
+      var bar = {
+        colour: 'grey',
+        percent: (p2.votes / total) * 100
+      }
+
+      if (bar.percent < 50) {
+        bar.colour = 'orange'
+      }
+      if (bar.percent > 50) {
+        bar.colour = 'blue'
+      }
+
+      return bar;
+    },
+
     votingOpen: function() {
 	var game = Games.findOne({},{sort:{Created:-1}});
       var open = game.Turn.isVotingOpen;
