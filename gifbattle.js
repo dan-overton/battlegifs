@@ -255,6 +255,7 @@ if (Meteor.isClient) {
 
       return (p1.votes / total) * 100;
     },
+
     votingOpen: function() {
 	var game = Games.findOne({},{sort:{Created:-1}});
       var open = game.Turn.isVotingOpen;
@@ -287,6 +288,9 @@ if (Meteor.isClient) {
       }
 
       return null;
+    },
+    nickname: function(){
+      return Session.get("nick");
     }
   });
 
@@ -305,11 +309,26 @@ Template.chat.helpers({
       Meteor.call('init');
     },
 
+    "click #playAsNicknameP1": function (event) {
+      // Set the checked property to the opposite of its current value
+      event.preventDefault();
+      var id = Games.findOne({},{sort:{Created:-1}})._id;
+      Games.update(id, {$push:{Players:{name: Session.get("nick"), votes: 0, imageUrl: 'player1.jpg' }}});
+      Session.set("playerOne", true);
+    },
+    "click #playAsNicknameP2": function (event) {
+      // Set the checked property to the opposite of its current value
+      event.preventDefault();
+      var id = Games.findOne({},{sort:{Created:-1}})._id;
+      Games.update(id, {$push:{Players:{name: Session.get("nick"), votes: 0, imageUrl: 'player2.jpg' }}});
+      Session.set("playerTwo", true);
+    },
     "submit .player-one": function (event) {
       // Set the checked property to the opposite of its current value
       event.preventDefault();
       var id = Games.findOne({},{sort:{Created:-1}})._id;
       Games.update(id, {$push:{Players:{name: event.target.text.value, votes: 0, imageUrl: 'player1.jpg' }}});
+      Session.set("nick", event.target.text.value);
       Session.set("playerOne", true);
       Session.set("nick", event.target.text.value );
       Session.set("chatImageUrl", 'player1.jpg' );

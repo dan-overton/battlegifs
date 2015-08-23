@@ -144,13 +144,21 @@
     {{#unless gameOver}}
       {{#if noPlayers}}
         <div class="eight wide column">
-          <form class="player-one">
+
             <p>Where's the battle? Become player one:
             </p>
+
+        {{#if nickname}}
+            <button id="playAsNicknameP1" class="ui button green fluid">Play as {{nickname}}!</button>
+            {{/if}}
+              {{#unless nickname}}
+              <form class="player-one">
             <div class="ui input fluid">
               <input type="text" name="text" placeholder="Enter your name!" />
             </div>
-          </form>
+              </form>
+              {{/unless}}
+
         </div>
       {{/if}}
 
@@ -158,13 +166,21 @@
       {{#if onePlayer}}
         {{#if notAPlayer}}
           <div class="eight wide column">
-            <form class="player-two">
+
               <p>{{playerOne.name}} is waiting for battle, become player two:
               </p>
+
+                {{#if nickname}}
+                    <button id="playAsNicknameP2" class="ui button green fluid">Play as {{nickname}}!</button>
+                {{/if}}
+          {{#unless nickname}}
+                  <form class="player-two">
               <div class="ui input fluid">
                 <input type="text" name="text" placeholder="Enter your name!" />
               </div>
             </form>
+
+              {{/unless}}
           </div>
         {{/if}}
         {{#if imPlayerOne}}
