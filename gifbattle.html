@@ -107,8 +107,14 @@
     {{#if gfycat}}
             <li>{{user}} - <img class="gfyitem" id="{{gifId}}" data-id="{{gfylink}}" /></li>
     {{/if}}
+
+    {{#if imgurGifV}}
+        <li>{{user}} - <video autoplay="" loop="" style="width:100%" muted=""><source type="video/webm" src="{{imgurGifVRoot}}.webm"><source type="video/mp4" src="{{imgurGifVRoot}}.mp4"></video></li>
+    {{/if}}
     {{#unless gfycat}}
-        <li>{{user}} - <img src="{{href}}"></li>
+        {{#unless imgurGifV}}
+            <li>{{user}} - <img src="{{href}}"></li>
+        {{/unless}}
     {{/unless}}
 
     {{finish}}

@@ -211,6 +211,18 @@ if (Meteor.isClient) {
       return this.round + "gif" + this.user;
     },
 
+    imgurGifV: function() {
+      if(this.href.substring(this.href.length-5) == ".gifv")
+      {
+        return true;
+      }
+      return false;
+    },
+
+    imgurGifVRoot: function() {
+      return this.href.substring(0, this.href.length-5);
+    },
+
     gfycat: function () {
       if (this.href.indexOf("gfycat") !== -1) {
 
