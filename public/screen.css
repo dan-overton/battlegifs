@@ -133,9 +133,10 @@ header .hide-completed {
 	min-width:150vw;
 }
 
-#background .images img {
+#background .images img, #background .images video, #background .images .spacer {
 	width:400px;
 	height:300px;
+    display:inline-block;
 }
 
 #background .opaquer {
