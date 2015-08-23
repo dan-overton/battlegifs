@@ -66,12 +66,16 @@ if (Meteor.isClient) {
       return gifs;
     },
 	backgroundGifs: function() {
-		var games = Games.find({},{sort:{Created:-1}});
+		var games = Games.find({},{sort:{Created:-1}, limit:10});
 		var gifs = [];
 		games.forEach(function(game){
 			if(game.Gifs !== undefined) {
 				for(i = game.Gifs.length - 1; i > 0; i--){
 					gifs.push(game.Gifs[i]);
+					
+					if(gifs.length === 25){
+						return gifs;
+					}
 				}
 			}
 		});
