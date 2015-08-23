@@ -190,14 +190,13 @@
 
 <template name="gif">
     {{#if gfycat}}
-    <div class="ui link cards">
-      <div class="card">
+      <div class="ui card fluid">
         <div class="image">
           <img class="gfyitem" id="{{gifId}}" data-id="{{gfylink}}" />
         </div>
         <div class="extra content">
           <span class="right floated">
-            Added in just now
+            Added just now
           </span>
           <span>
             <i class="like icon"></i>
@@ -205,19 +204,16 @@
           </span>
         </div>
       </div>
-    </div>
-
     {{/if}}
 
     {{#if imgurGifV}}
-    <div class="ui link cards">
-      <div class="card">
+      <div class="ui card fluid">
         <div class="image">
           <video autoplay="" loop="" style="width:100%" muted=""><source type="video/webm" src="{{imgurGifVRoot}}.webm"><source type="video/mp4" src="{{imgurGifVRoot}}.mp4"></video>
         </div>
         <div class="extra content">
           <span class="right floated">
-            Added in just now
+            Added just now
           </span>
           <span>
             <i class="like icon"></i>
@@ -225,18 +221,16 @@
           </span>
         </div>
       </div>
-    </div>
     {{/if}}
     {{#unless gfycat}}
         {{#unless imgurGifV}}
-    <div class="ui link cards">
-      <div class="card">
+      <div class="ui card fluid">
         <div class="image">
           <img src="{{href}}">
         </div>
         <div class="extra content">
           <span class="right floated">
-            Added in just now
+            Added just now
           </span>
           <span>
             <i class="like icon"></i>
@@ -244,7 +238,6 @@
           </span>
         </div>
       </div>
-    </div>
         {{/unless}}
     {{/unless}}
 
