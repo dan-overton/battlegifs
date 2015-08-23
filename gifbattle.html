@@ -1,6 +1,7 @@
 <head>
   <title>gifbattle</title>
-<link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+  <link href='https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.0.8/semantic.min.css' rel='stylesheet' type='text/css'>
 </head>
 
 <body>
@@ -21,19 +22,18 @@
 	</div>
 <div class="container">
   <header>
-      <h1>GIF BATTLE!</h1>
-      <button id="clearPlayers">Clear Players</button>
+      <img src="/CWjYKKBO.gif" />
+      <button id="clearPlayers" class="ui button right floated">Clear Players</button>
   </header>
 <section class="content">
-  {{> joinForm}}
-
-  <ul>
+ {{> joinForm}}
+ <div class="ui grid">
     {{#each currentGifs}}
+     <div class="eight wide column">
       {{> gif}}
+    </div>
     {{/each}}
-  </ul>
-
-
+</div>
 </section>
 </div>
 
@@ -45,6 +45,7 @@
         s.parentNode.insertBefore(g, s);
     }(document, 'script'));
 </script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.0.8/semantic.min.js" />
 </body>
 
 <template name="joinForm">
@@ -54,48 +55,90 @@
     {{/if}}
     {{#unless gameOver}}
       {{#if noPlayers}}
-<form class="player-one">      
- <p>Where's the battle? Become player one:
-			
-	            <input type="text" name="text" placeholder="Enter your name!" />
-	       
-	</p>
-         </form>
+        <div class="eight wide column">
+          <form class="player-one">
+            <p>Where's the battle? Become player one:
+            </p>
+            <div class="ui input fluid">
+              <input type="text" name="text" placeholder="Enter your name!" />
+            </div>
+          </form>
+        </div>
       {{/if}}
 
 
       {{#if onePlayer}}
         {{#if notAPlayer}}
-<form class="player-two">
-          <p>{{playerOne}} is waiting for battle, become player two:
-          
-              <input type="text" name="text" placeholder="Enter your name!" />
-</p>
-          </form>
+          <div class="eight wide column">
+            <form class="player-two">
+              <p>{{playerOne}} is waiting for battle, become player two:
+              </p>
+              <div class="ui input fluid">
+                <input type="text" name="text" placeholder="Enter your name!" />
+              </div>
+            </form>
+          </div>
         {{/if}}
         {{#if imPlayerOne}}
-                <p>Waiting for player two!</p>
+<div class="ui active inverted dimmer">
+  <div class="ui text loader">Waiting for player two!</div>
+</div>
         {{/if}}
       {{/if}}
 
     {{#if twoPlayers}}
-      <h2>CURRENT SCORE</h2>
-        <p>{{playerOne}}     {{playerOneVotes}} : {{playerTwoVotes}}     {{playerTwo}}</p>
+      <div class="ui header center aligned">
+        <h2>CURRENT SCORE</h2>
+      </div>
+      <div class="ui grid statistics">
+        <div class="eight wide column">
+          <div class="statistic">
+            <div class="value">
+              <img src="http://semantic-ui.com/images/avatar/small/joe.jpg" class="ui circular inline image">
+              {{playerOneVotes}}
+            </div>
+            <div class="label">
+              {{playerOne}}
+            </div>
+          </div>
+        </div>
+        <div class="eight wide column">
+          <div class="statistic">
+            <div class="value">
+              <img src="http://semantic-ui.com/images/avatar/small/elliot.jpg" class="ui circular inline image">
+              {{playerTwoVotes}}
+            </div>
+            <div class="label">
+              {{playerTwo}}
+            </div>
+          </div>
+        </div>
+      </div>
 
       {{#unless votingOpen}}
        {{#if myTurn}}
+       <div class="ui grid">
+          <div class="sixteen wide column">
             <form class="add-gif">
+              <div class="ui input fluid">
                 <input type="text" name="text" placeholder="Select your GIF!!!" />
+              </div>
             </form>
+          </div>
+        </div>
         {{/if}}
       {{/unless}}
 
         {{#if notAPlayer}}
           {{#if votingOpen}}
-          <form class="vote">
+          <form class="vote ui grid">
               {{#if hasntVoted}}
-                <button id="voteOne">Vote for {{playerOne}}!</button>
-                <button id="voteTwo">Vote for {{playerTwo}}!</button>
+                 <div class="eight wide column">
+                <button id="voteOne" class="ui button fluid">Vote for {{playerOne}}!</button>
+              </div>
+              <div class="eight wide column">
+                <button id="voteTwo" class="ui button fluid">Vote for {{playerTwo}}!</button>
+              </div>
               {{/if}}
           </form>
           {{/if}}
@@ -106,15 +149,61 @@
 
 <template name="gif">
     {{#if gfycat}}
-            <li>{{user}} - <img class="gfyitem" id="{{gifId}}" data-id="{{gfylink}}" /></li>
+    <div class="ui link cards">
+      <div class="card">
+        <div class="image">
+          <img class="gfyitem" id="{{gifId}}" data-id="{{gfylink}}" />
+        </div>
+        <div class="extra content">
+          <span class="right floated">
+            Added in just now
+          </span>
+          <span>
+            <i class="like icon"></i>
+            75 likes
+          </span>
+        </div>
+      </div>
+    </div>
+
     {{/if}}
 
     {{#if imgurGifV}}
-        <li>{{user}} - <video autoplay="" loop="" style="width:100%" muted=""><source type="video/webm" src="{{imgurGifVRoot}}.webm"><source type="video/mp4" src="{{imgurGifVRoot}}.mp4"></video></li>
+    <div class="ui link cards">
+      <div class="card">
+        <div class="image">
+          <video autoplay="" loop="" style="width:100%" muted=""><source type="video/webm" src="{{imgurGifVRoot}}.webm"><source type="video/mp4" src="{{imgurGifVRoot}}.mp4"></video>
+        </div>
+        <div class="extra content">
+          <span class="right floated">
+            Added in just now
+          </span>
+          <span>
+            <i class="like icon"></i>
+            75 likes
+          </span>
+        </div>
+      </div>
+    </div>
     {{/if}}
     {{#unless gfycat}}
         {{#unless imgurGifV}}
-            <li>{{user}} - <img src="{{href}}"></li>
+    <div class="ui link cards">
+      <div class="card">
+        <div class="image">
+          <img src="{{href}}">
+        </div>
+        <div class="extra content">
+          <span class="right floated">
+            Added in just now
+          </span>
+          <span>
+            <i class="like icon"></i>
+            75 likes
+          </span>
+        </div>
+      </div>
+    </div>
         {{/unless}}
     {{/unless}}
 

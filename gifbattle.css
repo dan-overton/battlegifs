@@ -21,6 +21,8 @@ header {
 .content {
 	padding: 20px 15px 15px 15px;
 	background: #fff;
+  position: relative;
+  min-height: 300px;
 }
 
 #login-buttons {
