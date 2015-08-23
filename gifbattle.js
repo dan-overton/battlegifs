@@ -240,10 +240,19 @@ if (Meteor.isClient) {
     },
 
     "submit .player-one": function (event) {
+
       // Set the checked property to the opposite of its current value
       event.preventDefault();
-	var id = Games.findOne({},{sort:{Created:-1}})._id;
-      Games.update(id, {$push:{Players:{name: event.target.text.value, votes: 0, imageUrl: 'player1.jpg' }}});
+
+	  var game = Games.findOne({},{sort:{Created:-1}});
+
+      if(game == undefined)
+      {
+        Meteor.call('init');
+        game = Games.findOne({},{sort:{Created:-1}});
+      };
+
+      Games.update(game._id, {$push:{Players:{name: event.target.text.value, votes: 0, imageUrl: 'player1.jpg' }}});
       Session.set("playerOne", true);
     },
 
