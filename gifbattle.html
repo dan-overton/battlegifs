@@ -182,12 +182,12 @@
 
               {{/if}}
           </form>
-          <div class="ui {{progressBar.colour}} progress" data-percent="{{progressBar.percent}}">
-            <div class="bar" style="transition-duration: 300ms; width: {{progressBar.percent}}%;">
-            </div>
-          </div>
           {{/if}}
         {{/if}}
+        <div class="ui progress score-indicator" data-percent="{{progressBar}}">
+          <div class="bar" style="transition-duration: 300ms; width: {{progressBar}}%;">
+          </div>
+        </div>
     {{/if}}
   {{/unless}}
 </template>

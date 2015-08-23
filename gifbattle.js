@@ -167,20 +167,8 @@ if (Meteor.isClient) {
       if (total === 0) {
         return 50;
       }
-
-      var bar = {
-        colour: 'grey',
-        percent: (p2.votes / total) * 100
-      }
-
-      if (bar.percent < 50) {
-        bar.colour = 'orange'
-      }
-      if (bar.percent > 50) {
-        bar.colour = 'blue'
-      }
-
-      return bar;
+      
+      return (p1.votes / total) * 100;
     },
 
     votingOpen: function() {

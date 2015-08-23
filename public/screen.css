@@ -162,3 +162,18 @@ header .hide-completed {
         padding-bottom: 5px;
     }
 }
+
+/* Score Indicator
+***********************************************************/
+
+.ui.progress.score-indicator {
+  background-color: #007C89;
+  /*
+  blue #007C89
+  orange #F39900
+  */
+}
+.ui.progress.score-indicator .bar {
+    background-color: #F39900;
+    border-radius: 0;
+}
