@@ -65,14 +65,12 @@ if (Meteor.isClient) {
 
     },
 	backgroundGifs: function() {
-      var game = Games.findOne({},{sort:{Created:-1}});
-      if(game === undefined) return [];
-
-      var gifs = Gifs.find({game: game._id});
+      var gifs = Gifs.find({}, {sort:{Created:-1}, limit:25});
 
       if(!gifs) {
-        return []
+        return [];
       }
+
       var hrefs = [];
       gifs.forEach(function(fig) {
         hrefs.push(fig.href);
@@ -232,10 +230,7 @@ if (Meteor.isClient) {
       var playerName = Games.findOne({},{sort:{Created:-1}}).Players[currentPlayer].name;
 		var id = Games.findOne({},{sort:{Created:-1}})._id;
 
-
-      Games.update(id, {$push:{Gifs:{user: playerName, href: url, round: currentTurn.round}}});
-
-      Gifs.insert({game: Games.findOne({},{sort:{Created:-1}})._id, href: url, round: currentTurn.round, user: playerName, player: currentPlayer, votes: 0});      if(currentPlayer == 1)
+      Gifs.insert({game: Games.findOne({},{sort:{Created:-1}})._id, href: url, round: currentTurn.round, Created: new Date(), user: playerName, player: currentPlayer, votes: 0});      if(currentPlayer == 1)
       {
         Meteor.call('openVoting');
         Session.Set("voted", false);
