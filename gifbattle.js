@@ -177,7 +177,8 @@ if (Meteor.isClient) {
 
   Template.joinForm.events({
 
-    "click #newGame": function () {
+    "click #newGame": function (event) {
+      event.preventDefault();
       Meteor.call('init');
     },
 

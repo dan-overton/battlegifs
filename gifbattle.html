@@ -51,10 +51,11 @@
 
 <template name="joinForm">
     {{#if gameOver}}
-      GAME OVER!
-      {{winnerName}} wins!
+      <h2>GAME OVER! {{winnerName}} wins!</h2>
 
-        <button id="newGame">Click here to start a new game!</button>
+        <form class="vote ui grid">
+            <div class="eight wide column"><button id="newGame" class="ui button fluid">Click here to start a new game!</button></div>
+        </form>
     {{/if}}
     {{#unless gameOver}}
       {{#if noPlayers}}
