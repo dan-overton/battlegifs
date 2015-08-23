@@ -108,23 +108,36 @@
       </div>
       {{/unless}}
 
+      <div class="ui grid statistics">
+        <div class="eight wide column">
+          <div class="statistic">
+            <div class="value">
+              <img src="/player1.jpg" class="ui circular inline image">
+              {{playerOne.votes}}
+            </div>
+            <div class="label">
+              {{playerOne.name}}
+            </div>
+          </div>
+        </div>
+        <div class="eight wide column">
+          <div class="statistic">
+            <div class="value">
+              <img src="/player2.jpg" class="ui circular inline image">
+              {{playerTwo.votes}}
+            </div>
+            <div class="label">
+              {{playerTwo.name}}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="ui grid">
+          {{#each roundResults}}
+              {{> roundrow}}
+          {{/each}}
+      </div>
         <div class="ui header center aligned">
-            <table class="ui celled table">
-                <thead>
-                    <tr>
-                        <th class="one wide">Round</th>
-                        <th>Player 1 GIF</th>
-                        <th class="one wide">Votes</th>
-                        <th>Player 2 GIF</th>
-                        <td class="one wide">Votes</td>
-                    </tr>
-                </thead>
-                <tbody>
-                    {{#each roundResults}}
-                        {{> roundrow}}
-                    {{/each}}
-                </tbody>
-            </table>
             <button id="newGame" class="ui button inverted green massive fluid">Click here to start a new game!</button>
         </div>
     {{/if}}
@@ -318,5 +331,34 @@
 </template>
 
 <template name="roundrow">
-    <tr><td>{{round}}</td><td><a href="{{player1gif}}">{{player1text}}</a></td><td>{{player1votes}}</td><td><a href="{{player2gif}}">{{player2text}}</a></td><td>{{player2votes}}</td></tr>
+
+  <div class="row">
+  <div class="ui horizontal divider">
+    Round {{round}}
+  </div>
+
+  <figure class="effect-steve">
+		<img src="{{player1gif}}">
+		<figcaption>
+			<h2>{{player1votes}}</h2>
+		</figcaption>
+	</figure>
+  <figure class="effect-steve">
+    <img src="{{player2gif}}">
+    <figcaption>
+      <h2>{{player2votes}}</h2>
+    </figcaption>
+  </figure>
+</div>
+  <!-- <div class="eight wide column segment result-image">
+    <img class="ui centered medium rounded image" src="{{player1gif}}">
+    <h2><span>{{player1votes}}</span></h2>
+  </div> -->
+    <!-- <tr>
+      <td>{{round}}</td>
+      <td><a href="{{player1gif}}">{{player1text}}</a></td>
+      <td>{{player1votes}}</td>
+      <td><a href="{{player2gif}}">{{player2text}}</a></td>
+      <td>{{player2votes}}</td>
+    </tr> -->
 </template>
