@@ -7,6 +7,7 @@ if (Meteor.isServer) {
 
     return Meteor.methods({
       init: function() {
+		//Games.remove({});
 		Games.insert({Created: new Date(), Turn:{isPlayerOne: true, round:1}, Players:[]})
       },
 
@@ -72,7 +73,7 @@ if (Meteor.isClient) {
 
       var hrefs = [];
       gifs.forEach(function(fig) {
-        hrefs.push(fig);
+        hrefs.push(fig.href);
       });
 
       return hrefs;
@@ -233,16 +234,14 @@ if (Meteor.isClient) {
       // Set the checked property to the opposite of its current value
       event.preventDefault();
 		var url = event.target.text.value;
-		var gifRe = /^http[s]?:\/\/.+\.gif$|^http:\/\/[^.]+.gfycat.com\/.*$|^https:\/\/i.imgur.com\/[^.]+\.gifv$/g;
+		var gifRe = /^http[s]?:\/\/.+\.gif$|http:\/\/[^.]+.gfycat.com\/.*/g;
 		if(url === "") return;
-		if(url.match(gifRe).length === 0) return;
+		//if(url.match(gifRe).length === 0) return;
 
-      if(url === Gifs.findOne({},{sort:{Created:-1}}).href) return;
-
-      var id = Games.findOne({},{sort:{Created:-1}})._id;
       var currentTurn = Games.findOne({},{sort:{Created:-1}}).Turn;
       var currentPlayer = currentTurn.isPlayerOne ? 0 : 1;
       var playerName = Games.findOne({},{sort:{Created:-1}}).Players[currentPlayer].name;
+		var id = Games.findOne({},{sort:{Created:-1}})._id;
 
       Gifs.insert({game: id, href: url, round: currentTurn.round, Created: new Date(), user: playerName, player: currentPlayer, votes: 0});
       if(currentPlayer == 1)
@@ -306,50 +305,6 @@ if (Meteor.isClient) {
     finish: function() {
       var gfy = document.getElementById(this.round + "gif" + this.user);
 		if(gfy === null) return;
-      var a = new gfyObject(gfy);
-      a.init();
-    }
-  });
-
-  Template.bg.helpers({
-    gifId: function()
-    {
-      return this.round + "gif" + this.user;
-    },
-
-    imgurGifV: function() {
-      if(this.href.substring(this.href.length-5) == ".gifv")
-      {
-        return true;
-      }
-      return false;
-    },
-
-    imgurGifVRoot: function() {
-      return this.href.substring(0, this.href.length-5);
-    },
-
-    gfycat: function () {
-      if (this.href.indexOf("gfycat") !== -1) {
-
-        var last = this.href.lastIndexOf("/");
-
-        if(last == this.href.length)
-        {
-          this.href = this.href.substring(0, this.href.length - 1);
-          last = this.href.lastIndexOf("/");
-        }
-        this.gfylink = this.href.substring(last+1);
-
-        return true;
-      }
-
-      return false;
-    },
-
-    finish: function() {
-      var gfy = document.getElementById("bg" + this.round + "gif" + this.user);
-      if(gfy === null) return;
       var a = new gfyObject(gfy);
       a.init();
     }

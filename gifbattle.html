@@ -70,33 +70,30 @@
       {{/if}}
       {{#unless isDraw}}
       <div class="ui header center aligned">
-        <h2>GAME OVER!</h2>
-        {{winner.name}} wins!
-      </div>
-      <div class="ui card fluid">
-        <div class="image">
-          <img src="http://semantic-ui.com/images/avatar2/large/elyse.png">
-        </div>
-        <div class="content">
-          <a class="header">{{winner.name}}</a>
-          <div class="meta">
-            <span class="date">Joined in 2015</span>
-          </div>
-        </div>
-        <div class="extra content">
-          <a>
-            <i class="checkmark icon"></i>
-            5 wins
-          </a>
-            <a>
-              <i class="remove icon"></i>
-              6 Losses
-            </a>
-        </div>
+            <h2>GAME OVER!</h2>
+            {{winner.name}} wins!
       </div>
       {{/unless}}
 
-      <button id="newGame" class="ui button inverted green massive fluid">Click here to start a new game!</button>
+        <div class="ui header center aligned">
+            <table class="ui celled table">
+                <thead>
+                    <tr>
+                        <th class="one wide">Round</th>
+                        <th>Player 1 GIF</th>
+                        <th class="one wide">Votes</th>
+                        <th>Player 2 GIF</th>
+                        <td class="one wide">Votes</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each roundResults}}
+                        {{> roundrow}}
+                    {{/each}}
+                </tbody>
+            </table>
+            <button id="newGame" class="ui button inverted green massive fluid">Click here to start a new game!</button>
+        </div>
     {{/if}}
     {{#unless gameOver}}
       {{#if noPlayers}}
@@ -110,7 +107,6 @@
           </form>
         </div>
       {{/if}}
-
 
       {{#if onePlayer}}
         {{#if notAPlayer}}
@@ -261,4 +257,8 @@
     {{/unless}}
 
     {{finish}}
+</template>
+
+<template name="roundrow">
+    <tr><td>{{round}}</td><td><a href="{{player1gif}}">{{player1text}}</a></td><td>{{player1votes}}</td><td><a href="{{player2gif}}">{{player2text}}</a></td><td>{{player2votes}}</td></tr>
 </template>
