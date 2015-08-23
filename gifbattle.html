@@ -86,9 +86,7 @@
       </div>
       {{/unless}}
 
-        <form class="vote ui grid">
-            <div class="eight wide column"><button id="newGame" class="ui button fluid">Click here to start a new game!</button></div>
-        </form>
+      <button id="newGame" class="ui button inverted green massive fluid">Click here to start a new game!</button>
     {{/if}}
     {{#unless gameOver}}
       {{#if noPlayers}}
@@ -179,10 +177,10 @@
           <form class="vote ui grid">
               {{#if hasntVoted}}
                  <div class="eight wide column">
-                <button id="voteOne" class="ui button fluid">Vote for {{playerOne}}!</button>
+                <button id="voteOne" class="ui button green fluid">Vote for {{playerOne}}!</button>
               </div>
               <div class="eight wide column">
-                <button id="voteTwo" class="ui button fluid">Vote for {{playerTwo}}!</button>
+                <button id="voteTwo" class="ui button green fluid">Vote for {{playerTwo}}!</button>
               </div>
 
               {{/if}}
