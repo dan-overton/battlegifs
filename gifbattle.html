@@ -154,21 +154,6 @@
         </div>
       </div>
 
-      {{#unless votingOpen}}
-       {{#if myTurn}}
-       <div class="ui grid">
-          <div class="sixteen wide column">
-            <form class="add-gif">
-              <div class="ui input fluid">
-                <input type="text" name="text" placeholder="Select your GIF!!!" />
-              </div>
-
-            </form>
-          </div>
-        </div>
-        {{/if}}
-      {{/unless}}
-
         {{#if notAPlayer}}
           {{#if votingOpen}}
           <form class="vote ui grid">
@@ -184,10 +169,27 @@
           </form>
           {{/if}}
         {{/if}}
+
         <div class="ui progress score-indicator" data-percent="{{progressBar}}">
           <div class="bar" style="transition-duration: 300ms; width: {{progressBar}}%;">
           </div>
         </div>
+
+        {{#unless votingOpen}}
+         {{#if myTurn}}
+         <div class="ui grid">
+            <div class="sixteen wide column">
+              <form class="add-gif">
+                <div class="ui input fluid">
+                  <input type="text" name="text" placeholder="Select your GIF!!!" />
+                </div>
+
+              </form>
+            </div>
+          </div>
+          {{/if}}
+        {{/unless}}
+
     {{/if}}
   {{/unless}}
 </template>
