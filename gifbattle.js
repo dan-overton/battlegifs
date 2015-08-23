@@ -7,7 +7,6 @@ if (Meteor.isServer) {
 
     return Meteor.methods({
       init: function() {
-		//Games.remove({});
 		Games.insert({Created: new Date(), Turn:{isPlayerOne: true, round:1}, Players:[]})
       },
 
