@@ -143,11 +143,11 @@ if (Meteor.isClient) {
     },
 
     playerOne: function() {
-      return Games.findOne({},{sort:{Created:-1}}).Players[0].name;
+      return Games.findOne({},{sort:{Created:-1}}).Players[0];
     },
 
     playerTwo: function() {
-      return Games.findOne({},{sort:{Created:-1}}).Players[1].name;
+      return Games.findOne({},{sort:{Created:-1}}).Players[1];
     },
 
     imPlayerOne: function() {
@@ -181,6 +181,19 @@ if (Meteor.isClient) {
 
     playerTwoVotes: function() {
       return Games.findOne({},{sort:{Created:-1}}).Players[1].votes
+    },
+
+    progressBar: function() {
+      var p1 = Games.findOne({},{sort:{Created:-1}}).Players[0];
+      var p2 = Games.findOne({},{sort:{Created:-1}}).Players[1];
+
+      var total = p1.votes + p2.votes;
+
+      if (total === 0) {
+        return 50;
+      }
+
+      return (p1.votes / total) * 100;
     },
 
     votingOpen: function() {
@@ -230,7 +243,7 @@ if (Meteor.isClient) {
       // Set the checked property to the opposite of its current value
       event.preventDefault();
 	var id = Games.findOne({},{sort:{Created:-1}})._id;
-      Games.update(id, {$push:{Players:{name: event.target.text.value, votes: 0}}});
+      Games.update(id, {$push:{Players:{name: event.target.text.value, votes: 0, imageUrl: 'player1.jpg' }}});
       Session.set("playerOne", true);
     },
 
@@ -238,7 +251,7 @@ if (Meteor.isClient) {
       // Set the checked property to the opposite of its current value
       event.preventDefault();
 		var id = Games.findOne({},{sort:{Created:-1}})._id;
-		Games.update(id, {$push:{Players:{name: event.target.text.value, votes: 0}}});
+		Games.update(id, {$push:{Players:{name: event.target.text.value, votes: 0, imageUrl: 'player2.jpg'}}});
       Session.set("playerTwo", true);
     },
 
