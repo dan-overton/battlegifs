@@ -21,22 +21,30 @@
 	</div>
 	<div class="opaquer">&nbsp;</div>
 	</div>
-<div class="container">
-  <header>
-      <img src="/CWjYKKBO.gif" />
-      <button id="clearPlayers" class="ui button right floated">Clear Players</button>
-  </header>
-<section class="main-content">
- {{> joinForm}}
- <div class="ui grid">
-    {{#each currentGifs}}
-     <div class="eight wide column">
-      {{> gif}}
+  <div class="ui grid">
+    <div class="three wide column">
     </div>
-    {{/each}}
-</div>
-</section>
-</div>
+    <div class="ten wide column">
+      <div class="container">
+        <header>
+            <img src="/CWjYKKBO.gif" />
+            <button id="clearPlayers" class="ui button right floated">Clear Players</button>
+        </header>
+        <section class="main-content">
+         {{> joinForm}}
+         <div class="ui grid">
+            {{#each currentGifs}}
+             <div class="eight wide column">
+              {{> gif}}
+            </div>
+            {{/each}}
+          </div>
+        </section>
+      </div>
+      <div class="three wide column">
+      </div>
+    </div>
+  </div>
 
 <script>
     (function(d, t) {
