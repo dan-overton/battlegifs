@@ -1,4 +1,5 @@
-Games = new Mongo.Collection("Games");
+var Games = new Mongo.Collection("Games");
+var Gifs = new Mongo.Collection("Gifs");
 
 if (Meteor.isServer) {
 
@@ -7,7 +8,7 @@ if (Meteor.isServer) {
     return Meteor.methods({
       init: function() {
 		//Games.remove({});
-		Games.insert({Created: new Date(), Turn:{isPlayerOne: true, round:1}, Players:[], Gifs:[]})
+		Games.insert({Created: new Date(), Turn:{isPlayerOne: true, round:1}, Players:[]})
       },
 
       changeTurn: function() {
@@ -24,21 +25,27 @@ if (Meteor.isServer) {
         Meteor.setTimeout(function(){
           Games.update(id, {$set: {"Turn.isVotingOpen": false, "Turn.isPlayerOne": true, "Turn.round": game.Turn.round + 1}});
 
-        },15000);
+        },12000);
       },
 
       voteOne: function() {
-        Games.findOne({},{sort:{Created:-1}}).Players.update(
-            { number: 1 },
-            { $inc: { votes: 1} }
-        )
+        var currentGame = Games.findOne({},{sort:{Created:-1}});
+        Games.update({_id: currentGame._id},
+            { $inc: { "Players.0.votes": 1} }
+        );
+
+        Gifs.update({game: currentGame._id, round: currentGame.Turn.round, player: 0},
+            {$inc: { votes: 1}});
       },
 
       voteTwo: function() {
-        Games.findOne({},{sort:{Created:-1}}).Players.update(
-            { number: 2 },
-            { $inc: { votes: 1} }
-        )
+        var currentGame = Games.findOne({},{sort:{Created:-1}});
+        Games.update({_id: currentGame._id},
+            { $inc: { "Players.1.votes": 1} }
+        );
+
+        Gifs.update({game: currentGame._id, round: currentGame.Turn.round, player: 1},
+            {$inc: { votes: 1}});
       }
     });
   });
@@ -53,29 +60,25 @@ if (Meteor.isClient) {
     currentGifs: function() {
 		var game = Games.findOne({},{sort:{Created:-1}});
 		if(game === undefined) return [];
-      var currentRound = game.Turn.round;
 
-		var gifs = [];
-		for(i = 0; i < game.Gifs.length; i++){
-			if(game.Gifs[i].round === game.Turn.round)
-			{
-				gifs.push(game.Gifs[i]);
-			}
-		}
+		return Gifs.find({game: game._id, round: game.Turn.round});
 
-      return gifs;
     },
 	backgroundGifs: function() {
-		var games = Games.find({},{sort:{Created:-1}});
-		var gifs = [];
-		games.forEach(function(game){
-			if(game.Gifs !== undefined) {
-				for(i = 0; i < game.Gifs.length; i++){
-					gifs.push(game.Gifs[i].href);
-				}
-			}
-		});
-		return gifs;
+      var game = Games.findOne({},{sort:{Created:-1}});
+      if(game === undefined) return [];
+
+      var gifs = Gifs.find({game: game._id});
+
+      if(!gifs) {
+        return []
+      }
+      var hrefs = [];
+      gifs.forEach(function(fig) {
+        hrefs.push(fig.href);
+      });
+
+      return hrefs;
 	}
   });
 
@@ -228,8 +231,11 @@ if (Meteor.isClient) {
       var currentPlayer = currentTurn.isPlayerOne ? 0 : 1;
       var playerName = Games.findOne({},{sort:{Created:-1}}).Players[currentPlayer].name;
 		var id = Games.findOne({},{sort:{Created:-1}})._id;
+
+
       Games.update(id, {$push:{Gifs:{user: playerName, href: url, round: currentTurn.round}}});
-      if(currentPlayer == 1)
+
+      Gifs.insert({game: Games.findOne({},{sort:{Created:-1}})._id, href: url, round: currentTurn.round, user: playerName, player: currentPlayer, votes: 0});      if(currentPlayer == 1)
       {
         Meteor.call('openVoting');
         Session.Set("voted", false);
