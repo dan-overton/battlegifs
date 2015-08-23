@@ -158,6 +158,19 @@ if (Meteor.isClient) {
       return Games.findOne({},{sort:{Created:-1}}).Players[1].votes
     },
 
+    progressBar: function() {
+      var p1 = Games.findOne({},{sort:{Created:-1}}).Players[0];
+      var p2 = Games.findOne({},{sort:{Created:-1}}).Players[1];
+
+      var total = p1.votes + p2.votes;
+
+      if (total === 0) {
+        return 50;
+      }
+      
+      return (p1.votes / total) * 100;
+    },
+
     votingOpen: function() {
 	var game = Games.findOne({},{sort:{Created:-1}});
       var open = game.Turn.isVotingOpen;

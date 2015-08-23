@@ -186,7 +186,7 @@
           {{#if votingOpen}}
           <form class="vote ui grid">
               {{#if hasntVoted}}
-                 <div class="eight wide column">
+              <div class="eight wide column">
                 <button id="voteOne" class="ui button green fluid">Vote for {{playerOne}}!</button>
               </div>
               <div class="eight wide column">
@@ -197,6 +197,10 @@
           </form>
           {{/if}}
         {{/if}}
+        <div class="ui progress score-indicator" data-percent="{{progressBar}}">
+          <div class="bar" style="transition-duration: 300ms; width: {{progressBar}}%;">
+          </div>
+        </div>
     {{/if}}
   {{/unless}}
 </template>
