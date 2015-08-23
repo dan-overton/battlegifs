@@ -1,6 +1,7 @@
 var Games = new Mongo.Collection("Games");
 var Gifs = new Mongo.Collection("Gifs");
 var CountDown = new Mongo.Collection("CountDown");
+var Chats = new Mongo.Collection("Chats")
 
 if (Meteor.isServer) {
 
@@ -8,6 +9,7 @@ if (Meteor.isServer) {
 
     return Meteor.methods({
       init: function() {
+          Chats.remove({});
 		Games.insert({Created: new Date(), Turn:{isPlayerOne: true, round:1}, Players:[]})
       },
 
@@ -94,12 +96,37 @@ if (Meteor.isClient) {
       aPlayer: function() {
           return Session.get("playerOne") || Session.get("playerTwo");
       },
+      chats: function(){
+          var c = [];
+
+          Chats.find({}, {sort:{created:-1}, limit:3}).forEach(function(chat){
+              c.push(chat);
+          });
+
+          return c.reverse();
+      },
+      nickname: function(){
+          return Session.get("nick");
+      }
   });
 
   Template.body.events({
     "click #clearPlayers": function () {
       Meteor.call('init');
-    }
+    },
+      "submit .nick-form": function (event) {
+          // Set the checked property to the opposite of its current value
+          event.preventDefault();
+          console.log("hello!");
+          Session.set("nick", event.target.text.value);
+      },
+      "submit .chat-form": function (event) {
+          // Set the checked property to the opposite of its current value
+          event.preventDefault();
+          console.log("hello!");
+          Chats.insert({nickname:Session.get("nick"),text:event.target.text.value,created:new Date()});
+          event.target.text.value = "";
+      }
   });
 
   Template.joinForm.helpers({
@@ -252,7 +279,6 @@ if (Meteor.isClient) {
       return null;
     }
   });
-
 
   Template.joinForm.events({
 

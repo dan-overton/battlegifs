@@ -32,6 +32,23 @@ header {
     position: relative;
 }
 
+#chatbox {
+    display:inline-block;
+    border : 1px solid #F39900;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+    background : #def4d8;
+    width:55%;
+    overflow: hidden;
+    padding : 5px 10px;
+}
+
+#chatbox p span {
+    color: darkviolet;
+    font-weight: bolder;
+}
+
 .main-content {
 	padding: 20px 15px 15px 15px;
 	background: #fff;

@@ -26,7 +26,26 @@
 <div class="container">
   <header>
       <img src="/CWjYKKBO.gif" />
-      <button id="clearPlayers" class="ui button right floated">Clear Players</button>
+      <div id="chatbox">
+          {{#each chats}}
+              {{> chat }}
+          {{/each}}
+      </div>
+      <button id="clearPlayers" class="ui button right floated">x</button>
+      {{#unless nickname}}
+      <form class="nick-form">
+          <div class="ui input fluid">
+              <input type="text" name="text" placeholder="Nickname ..." autocomplete="off" />
+          </div>
+      </form>
+      {{/unless}}
+{{#if nickname}}
+      <form class="chat-form">
+          <div class="ui input fluid">
+          <input type="text" name="text" placeholder="Chat ..." autocomplete="off" />
+              </div>
+      </form>
+    {{/if}}
   </header>
 <section class="main-content">
  {{> joinForm}}
@@ -50,6 +69,10 @@
 </script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.0.8/semantic.min.js" />
 </body>
+
+<template name="chat">
+    <p><span>{{nickname}}</span>: {{text}}</p>
+</template>
 
 <template name="joinForm">
     {{#if gameOver}}
