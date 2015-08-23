@@ -130,7 +130,7 @@ if (Meteor.isClient) {
     },
 
     currentRound: function() {
-      return Turn.findOne({}).round;
+      return Games.findOne({}).Turn.round;
     },
 
     finalRound: function() {
