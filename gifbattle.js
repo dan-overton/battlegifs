@@ -176,6 +176,11 @@ if (Meteor.isClient) {
 
 
   Template.joinForm.events({
+
+    "click #newGame": function () {
+      Meteor.call('init');
+    },
+
     "submit .player-one": function (event) {
       // Set the checked property to the opposite of its current value
       event.preventDefault();
