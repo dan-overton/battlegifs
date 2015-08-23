@@ -26,7 +26,7 @@
       <img src="/CWjYKKBO.gif" />
       <button id="clearPlayers" class="ui button right floated">Clear Players</button>
   </header>
-<section class="content">
+<section class="main-content">
  {{> joinForm}}
  <div class="ui grid">
     {{#each currentGifs}}
@@ -51,7 +51,40 @@
 
 <template name="joinForm">
     {{#if gameOver}}
-      <h2>GAME OVER! {{winnerName}} wins!</h2>
+      {{#if isDraw}}
+      <div class="ui header center aligned">
+        <h2>It's a bloody draw!</h2>
+        That was a waste of time...
+      </div>
+
+      {{/if}}
+      {{#unless isDraw}}
+      <div class="ui header center aligned">
+        <h2>GAME OVER!</h2>
+        {{winner.name}} wins!
+      </div>
+      <div class="ui card fluid">
+        <div class="image">
+          <img src="http://semantic-ui.com/images/avatar2/large/elyse.png">
+        </div>
+        <div class="content">
+          <a class="header">{{winner.name}}</a>
+          <div class="meta">
+            <span class="date">Joined in 2015</span>
+          </div>
+        </div>
+        <div class="extra content">
+          <a>
+            <i class="checkmark icon"></i>
+            5 wins
+          </a>
+            <a>
+              <i class="remove icon"></i>
+              6 Losses
+            </a>
+        </div>
+      </div>
+      {{/unless}}
 
         <form class="vote ui grid">
             <div class="eight wide column"><button id="newGame" class="ui button fluid">Click here to start a new game!</button></div>

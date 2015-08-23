@@ -76,7 +76,7 @@ if (Meteor.isClient) {
   Template.joinForm.helpers({
     gameOver: function() {
 	if(Games.findOne({},{sort:{Created:-1}}) === undefined) return false;
-	
+
       return Games.findOne({},{sort:{Created:-1}}).Turn.round == 4; //3 rounds
     },
 
@@ -134,7 +134,7 @@ if (Meteor.isClient) {
     },
 
     finalRound: function() {
-      return currentRound() === 3;
+      return Games.findOne({},{sort:{Created:-1}}).Turn.round === 3;
     },
 
     playerOneVotes: function() {
@@ -156,21 +156,27 @@ if (Meteor.isClient) {
       return open;
     },
 
-    winnerName: function() {
+    isDraw: function() {
+      var p1 = Games.findOne({},{sort:{Created:-1}}).Players[0];
+      var p2 = Games.findOne({},{sort:{Created:-1}}).Players[1];
+      return p1.votes === p2.votes
+    },
+
+    winner: function() {
       var p1 = Games.findOne({},{sort:{Created:-1}}).Players[0];
       var p2 = Games.findOne({},{sort:{Created:-1}}).Players[1];
 
       if(p1.votes > p2.votes)
       {
-        return p1.name;
+        return p1;
       }
 
       if(p2.votes > p1.votes)
       {
-        return p2.name;
+        return p2;
       }
 
-      return "NO ONE";
+      return null;
     }
   });
 
