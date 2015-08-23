@@ -9,7 +9,7 @@
 	<div id="background">
 		<div class="images">
 			{{#each backgroundGifs}}
-		     {{> background}}
+		     {{> bg}}
 		    {{/each}}
 	</div>
 	<div class="opaquer">&nbsp;</div>
@@ -42,8 +42,21 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.0.8/semantic.min.js" />
 </body>
 
-<template name="background">
-<img src="{{this}}">
+<template name="bg">
+    {{#if gfycat}}
+        <div class="spacer"><img class="gfyitem" id="bg{{gifId}}" data-id="{{gfylink}}"/></div>
+    {{/if}}
+
+    {{#if imgurGifV}}
+        <video autoplay="" loop="" style="width:100%" muted=""><source type="video/webm" src="{{imgurGifVRoot}}.webm"><source type="video/mp4" src="{{imgurGifVRoot}}.mp4"></video>
+    {{/if}}
+    {{#unless gfycat}}
+        {{#unless imgurGifV}}
+            <img src="{{href}}">
+        {{/unless}}
+    {{/unless}}
+
+    {{finish}}
 </template>
 
 <template name="joinForm">

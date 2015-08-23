@@ -73,7 +73,7 @@ if (Meteor.isClient) {
 
       var hrefs = [];
       gifs.forEach(function(fig) {
-        hrefs.push(fig.href);
+        hrefs.push(fig);
       });
 
       return hrefs;
@@ -291,6 +291,50 @@ if (Meteor.isClient) {
     finish: function() {
       var gfy = document.getElementById(this.round + "gif" + this.user);
 		if(gfy === null) return;
+      var a = new gfyObject(gfy);
+      a.init();
+    }
+  });
+
+  Template.bg.helpers({
+    gifId: function()
+    {
+      return this.round + "gif" + this.user;
+    },
+
+    imgurGifV: function() {
+      if(this.href.substring(this.href.length-5) == ".gifv")
+      {
+        return true;
+      }
+      return false;
+    },
+
+    imgurGifVRoot: function() {
+      return this.href.substring(0, this.href.length-5);
+    },
+
+    gfycat: function () {
+      if (this.href.indexOf("gfycat") !== -1) {
+
+        var last = this.href.lastIndexOf("/");
+
+        if(last == this.href.length)
+        {
+          this.href = this.href.substring(0, this.href.length - 1);
+          last = this.href.lastIndexOf("/");
+        }
+        this.gfylink = this.href.substring(last+1);
+
+        return true;
+      }
+
+      return false;
+    },
+
+    finish: function() {
+      var gfy = document.getElementById("bg" + this.round + "gif" + this.user);
+      if(gfy === null) return;
       var a = new gfyObject(gfy);
       a.init();
     }
