@@ -14,6 +14,15 @@
 	</div>
 	<div class="opaquer">&nbsp;</div>
 	</div>
+{{#if aPlayer }}
+    {{#if countdown }}
+    <div id="countdown">
+    <p>
+            {{ countdown }}
+        </p>
+    </div>
+    {{/if}}
+{{/if}}
 <div class="container">
   <header>
       <img src="/CWjYKKBO.gif" />
@@ -41,23 +50,6 @@
 </script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.0.8/semantic.min.js" />
 </body>
-
-<template name="bg">
-    {{#if gfycat}}
-        <div class="spacer"><img class="gfyitem" id="bg{{gifId}}" data-id="{{gfylink}}"/></div>
-    {{/if}}
-
-    {{#if imgurGifV}}
-        <video autoplay="" loop="" muted=""><source type="video/webm" src="{{imgurGifVRoot}}.webm"><source type="video/mp4" src="{{imgurGifVRoot}}.mp4"></video>
-    {{/if}}
-    {{#unless gfycat}}
-        {{#unless imgurGifV}}
-            <img src="{{href}}">
-        {{/unless}}
-    {{/unless}}
-
-    {{finish}}
-</template>
 
 <template name="joinForm">
     {{#if gameOver}}
@@ -107,6 +99,7 @@
           </form>
         </div>
       {{/if}}
+
 
       {{#if onePlayer}}
         {{#if notAPlayer}}
@@ -166,6 +159,13 @@
         {{#if notAPlayer}}
           {{#if votingOpen}}
           <form class="vote ui grid">
+              {{#if notAPlayer }}
+                  {{#if countdown }}
+                      <div class="sixteen wide column">
+                          <p>Hurry only {{ countdown }} seconds left!</p>
+                      </div>
+                  {{/if}}
+              {{/if}}
               {{#if hasntVoted}}
               <div class="eight wide column">
                 <button id="voteOne" class="ui button green fluid">Vote for {{playerOne.name}}!</button>
@@ -253,6 +253,23 @@
           </span>
         </div>
       </div>
+        {{/unless}}
+    {{/unless}}
+
+    {{finish}}
+</template>
+
+<template name="bg">
+    {{#if gfycat}}
+        <div class="spacer"><img class="gfyitem" id="bg{{gifId}}" data-id="{{gfylink}}"/></div>
+    {{/if}}
+
+    {{#if imgurGifV}}
+        <video autoplay="" loop="" muted=""><source type="video/webm" src="{{imgurGifVRoot}}.webm"><source type="video/mp4" src="{{imgurGifVRoot}}.mp4"></video>
+    {{/if}}
+    {{#unless gfycat}}
+        {{#unless imgurGifV}}
+            <img src="{{href}}">
         {{/unless}}
     {{/unless}}
 

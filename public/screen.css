@@ -155,6 +155,17 @@ header .hide-completed {
     margin-bottom: 20px;
 }
 
+#countdown p {
+    position:absolute;
+    left:0;
+    top:0;
+    text-align: center;
+    min-height:100vh;
+    min-width:100vw;
+    font-size: 50vh;
+    z-index:1000;
+}
+
 @media (max-width: 600px) {
     li {
         padding: 12px 15px;

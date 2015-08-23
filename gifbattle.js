@@ -1,5 +1,6 @@
 var Games = new Mongo.Collection("Games");
 var Gifs = new Mongo.Collection("Gifs");
+var CountDown = new Mongo.Collection("CountDown");
 
 if (Meteor.isServer) {
 
@@ -7,7 +8,6 @@ if (Meteor.isServer) {
 
     return Meteor.methods({
       init: function() {
-		//Games.remove({});
 		Games.insert({Created: new Date(), Turn:{isPlayerOne: true, round:1}, Players:[]})
       },
 
@@ -22,9 +22,18 @@ if (Meteor.isServer) {
 		var id = game._id;
 		Games.update(id, {$set:{"Turn.isVotingOpen": true}});
 
+          var count = 12;
+          CountDown.insert({counter:count});
+
+        for(var i = 1; i < 12; i++){
+            Meteor.setTimeout(function(){
+                CountDown.update({}, {$set:{counter: (--count)}});
+            }, i * 1000);
+        }
+
         Meteor.setTimeout(function(){
           Games.update(id, {$set: {"Turn.isVotingOpen": false, "Turn.isPlayerOne": true, "Turn.round": game.Turn.round + 1}});
-
+            CountDown.remove({});
         },12000);
       },
 
@@ -73,11 +82,18 @@ if (Meteor.isClient) {
 
       var hrefs = [];
       gifs.forEach(function(fig) {
-        hrefs.push(fig.href);
+        hrefs.push(fig);
       });
 
       return hrefs;
-	}
+	},
+      countdown: function() {
+          if(CountDown.findOne({}) === undefined) return null;
+        return CountDown.findOne({}).counter;
+    },
+      aPlayer: function() {
+          return Session.get("playerOne") || Session.get("playerTwo");
+      },
   });
 
   Template.body.events({
@@ -92,6 +108,11 @@ if (Meteor.isClient) {
 
       return Games.findOne({},{sort:{Created:-1}}).Turn.round == 4; //3 rounds
     },
+
+      countdown: function() {
+          if(CountDown.findOne({}) === undefined) return null;
+          return CountDown.findOne({}).counter;
+      },
 
     noPlayers: function() {
       if(Games.findOne({},{sort:{Created:-1}}) === undefined || Games.findOne({},{sort:{Created:-1}}).Players.length == 0)
@@ -234,9 +255,9 @@ if (Meteor.isClient) {
       // Set the checked property to the opposite of its current value
       event.preventDefault();
 		var url = event.target.text.value;
-		var gifRe = /^http[s]?:\/\/.+\.gif$|http:\/\/[^.]+.gfycat.com\/.*/g;
+		var gifRe = /^http[s]?:\/\/.+\.gif$|^http:\/\/[^.]+.gfycat.com\/.*$|^https:\/\/i.imgur.com\/[^.]+\.gifv$/g;
 		if(url === "") return;
-		//if(url.match(gifRe).length === 0) return;
+		if(url.match(gifRe).length === 0) return;
 
       var currentTurn = Games.findOne({},{sort:{Created:-1}}).Turn;
       var currentPlayer = currentTurn.isPlayerOne ? 0 : 1;
@@ -309,4 +330,48 @@ if (Meteor.isClient) {
       a.init();
     }
   });
+
+    Template.bg.helpers({
+        gifId: function()
+        {
+            return this.round + "gif" + this.user;
+        },
+
+        imgurGifV: function() {
+            if(this.href.substring(this.href.length-5) == ".gifv")
+            {
+                return true;
+            }
+            return false;
+        },
+
+        imgurGifVRoot: function() {
+            return this.href.substring(0, this.href.length-5);
+        },
+
+        gfycat: function () {
+            if (this.href.indexOf("gfycat") !== -1) {
+
+                var last = this.href.lastIndexOf("/");
+
+                if(last == this.href.length)
+                {
+                    this.href = this.href.substring(0, this.href.length - 1);
+                    last = this.href.lastIndexOf("/");
+                }
+                this.gfylink = this.href.substring(last+1);
+
+                return true;
+            }
+
+            return false;
+        },
+
+        finish: function() {
+            var gfy = document.getElementById("bg" + this.round + "gif" + this.user);
+            if(gfy === null) return;
+            var a = new gfyObject(gfy);
+            a.init();
+        }
+    });
 }
