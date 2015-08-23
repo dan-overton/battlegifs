@@ -8,16 +8,9 @@
 <body>
 	<div id="background">
 		<div class="images">
-	<img src="http://www.gifbin.com/bin/122011/1325704160_recursive_ron_swanson_mustache.gif">
-	<img src="http://www.gifbin.com/bin/122011/1325704160_recursive_ron_swanson_mustache.gif">
-	<img src="http://www.gifbin.com/bin/122011/1325704160_recursive_ron_swanson_mustache.gif">
-	<img src="http://www.gifbin.com/bin/122011/1325704160_recursive_ron_swanson_mustache.gif">
-	<img src="http://www.gifbin.com/bin/122011/1325704160_recursive_ron_swanson_mustache.gif">
-	<img src="http://www.gifbin.com/bin/122011/1325704160_recursive_ron_swanson_mustache.gif">
-	<img src="http://www.gifbin.com/bin/122011/1325704160_recursive_ron_swanson_mustache.gif">
-	<img src="http://www.gifbin.com/bin/122011/1325704160_recursive_ron_swanson_mustache.gif">
-	<img src="http://www.gifbin.com/bin/122011/1325704160_recursive_ron_swanson_mustache.gif">
-	<img src="http://www.gifbin.com/bin/122011/1325704160_recursive_ron_swanson_mustache.gif">
+			{{#each backgroundGifs}}
+		     {{> background}}
+		    {{/each}}
 	</div>
 	<div class="opaquer">&nbsp;</div>
 	</div>
@@ -48,6 +41,10 @@
 </script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.0.8/semantic.min.js" />
 </body>
+
+<template name="background">
+<img src="{{this}}">
+</template>
 
 <template name="joinForm">
     {{#if gameOver}}

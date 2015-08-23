@@ -64,7 +64,19 @@ if (Meteor.isClient) {
 		}
 
       return gifs;
-    }
+    },
+	backgroundGifs: function() {
+		var games = Games.find({},{sort:{Created:-1}});
+		var gifs = [];
+		games.forEach(function(game){
+			if(game.Gifs !== undefined) {
+				for(i = 0; i < game.Gifs.length; i++){
+					gifs.push(game.Gifs[i].href);
+				}
+			}
+		});
+		return gifs;
+	}
   });
 
   Template.body.events({
