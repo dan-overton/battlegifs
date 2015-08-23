@@ -1,6 +1,4 @@
-Turn = new Mongo.Collection("turns");
-Gifs = new Mongo.Collection("gifs");
-Players = new Mongo.Collection("players");
+Games = new Mongo.Collection("Games");
 
 if (Meteor.isServer) {
 
@@ -8,54 +6,64 @@ if (Meteor.isServer) {
 
     return Meteor.methods({
       init: function() {
-        Players.remove({});
-        Gifs.remove({});
-        Turn.remove({});
-        Turn.insert({isPlayerOne: true, round:1});
+		Games.remove({});
+		Games.insert({Turn:{isPlayerOne: true, round:1}, Players:[], Gifs:[]})
       },
 
       changeTurn: function() {
-        var turn = Turn.findOne({});
-        Turn.update({}, {$set: {isPlayerOne: !turn.isPlayerOne}});
+        var turn = Games.findOne({}).Turn;
+		var id = Games.findOne({})._id;
+		Games.update(id, {$set:{"Turn.isPlayerOne": !turn.isPlayerOne}});
       },
 
       openVoting: function() {
-        Turn.update({}, {$set: {isVotingOpen: true}});
+		var game = Games.findOne({});
+		var id = game._id;
+		Games.update(id, {$set:{"Turn.isVotingOpen": true}});
 
         Meteor.setTimeout(function(){
-          Turn.update({}, {$set: {isVotingOpen: false, isPlayerOne: true}, $inc: { round: 1}});
+          Games.update(id, {$set: {"Turn.isVotingOpen": false, "Turn.isPlayerOne": true, "Turn.round": game.Turn.round + 1}});
 
         },15000);
       },
 
       voteOne: function() {
-        Players.update(
+        Games.findOne({}).Players.update(
             { number: 1 },
             { $inc: { votes: 1} }
         )
       },
 
       voteTwo: function() {
-        Players.update(
+        Games.findOne({}).Players.update(
             { number: 2 },
             { $inc: { votes: 1} }
         )
       }
     });
-
   });
-
 }
 
 if (Meteor.isClient) {
   // This code only runs on the client
   Template.body.helpers({
     players: function () {
-      return Players.find({});
+      return Games.findOne({}).Players;
     },
     currentGifs: function() {
-      var currentRound = Turn.findOne({}).round;
-      return Gifs.find({round: currentRound});
+		var game = Games.findOne({});
+		if(game === undefined) return [];
+      var currentRound = game.Turn.round;
+
+		var gifs = [];
+		for(i = 0; i < game.Gifs.length; i++){
+			if(game.Gifs[i].round === game.Turn.round)
+			{
+				gifs.push(game.Gifs[i]);
+			}
+		}
+
+      return gifs;
     }
   });
 
@@ -67,11 +75,13 @@ if (Meteor.isClient) {
 
   Template.joinForm.helpers({
     gameOver: function() {
-      return Turn.findOne({}).round == 4; //3 rounds
+	if(Games.findOne({}) === undefined) return false;
+	
+      return Games.findOne({}).Turn.round == 4; //3 rounds
     },
 
     noPlayers: function() {
-      if(Players.find({}).count() == 0)
+      if(Games.findOne({}) === undefined || Games.findOne({}).Players.length == 0)
       {
         Session.set("playerOne", false);
         Session.set("playerTwo", false);
@@ -87,19 +97,19 @@ if (Meteor.isClient) {
     },
 
     onePlayer: function() {
-      return Players.find({}).count() == 1;
+		return Games.findOne({}) !== undefined && Games.findOne({}).Players.length == 1;
     },
 
     twoPlayers: function() {
-      return Players.find({}).count() == 2;
+      return Games.findOne({}) !== undefined && Games.findOne({}).Players.length == 2;
     },
 
     playerOne: function() {
-      return Players.findOne({number: 1}).name;
+      return Games.findOne({}).Players[0].name;
     },
 
     playerTwo: function() {
-      return Players.findOne({number: 2}).name;
+      return Games.findOne({}).Players[1].name;
     },
 
     imPlayerOne: function() {
@@ -115,8 +125,8 @@ if (Meteor.isClient) {
     },
 
     myTurn: function() {
-      return ((Session.get("playerOne") &&  Turn.findOne({}).isPlayerOne) ||
-      (Session.get("playerTwo") &&  !Turn.findOne({}).isPlayerOne));
+      return ((Session.get("playerOne") &&  Games.findOne({}).Turn.isPlayerOne) ||
+      (Session.get("playerTwo") &&  !Games.findOne({}).Turn.isPlayerOne));
     },
 
     currentRound: function() {
@@ -128,15 +138,16 @@ if (Meteor.isClient) {
     },
 
     playerOneVotes: function() {
-      return Players.findOne({number: 1}).votes
+      return Games.findOne({}).Players[0].votes
     },
 
     playerTwoVotes: function() {
-      return Players.findOne({number: 2}).votes
+      return Games.findOne({}).Players[1].votes
     },
 
     votingOpen: function() {
-      var open = Turn.findOne({}).isVotingOpen;
+	var game = Games.findOne({});
+      var open = game.Turn.isVotingOpen;
 
       if(!open)
       {
@@ -146,8 +157,8 @@ if (Meteor.isClient) {
     },
 
     winnerName: function() {
-      var p1 = Players.findOne({number: 1});
-      var p2 = Players.findOne({number: 2});
+      var p1 = Games.findOne({}).Players[0];
+      var p2 = Games.findOne({}).Players[1];
 
       if(p1.votes > p2.votes)
       {
@@ -168,14 +179,16 @@ if (Meteor.isClient) {
     "submit .player-one": function (event) {
       // Set the checked property to the opposite of its current value
       event.preventDefault();
-      Players.insert({number: 1, name: event.target.text.value, votes: 0});
+	var id = Games.findOne({})._id;
+      Games.update(id, {$push:{Players:{name: event.target.text.value, votes: 0}}});
       Session.set("playerOne", true);
     },
 
     "submit .player-two": function (event) {
       // Set the checked property to the opposite of its current value
       event.preventDefault();
-      Players.insert({number: 2, name: event.target.text.value, votes: 0});
+		var id = Games.findOne({})._id;
+		Games.update(id, {$push:{Players:{name: event.target.text.value, votes: 0}}});
       Session.set("playerTwo", true);
     },
 
@@ -187,11 +200,12 @@ if (Meteor.isClient) {
 		if(url === "") return;
 		//if(url.match(gifRe).length === 0) return;
 
-      var currentTurn = Turn.findOne({});
-      var currentPlayer = currentTurn.isPlayerOne ? 1 : 2;
-      var playerName = Players.findOne({number: currentPlayer}).name;
-      Gifs.insert({user: playerName, href: url, round: currentTurn.round});
-      if(currentPlayer == 2)
+      var currentTurn = Games.findOne({}).Turn;
+      var currentPlayer = currentTurn.isPlayerOne ? 0 : 1;
+      var playerName = Games.findOne({}).Players[currentPlayer].name;
+		var id = Games.findOne({})._id;
+      Games.update(id, {$push:{Gifs:{user: playerName, href: url, round: currentTurn.round}}});
+      if(currentPlayer == 1)
       {
         Meteor.call('openVoting');
         Session.Set("voted", false);
@@ -251,6 +265,7 @@ if (Meteor.isClient) {
 
     finish: function() {
       var gfy = document.getElementById(this.round + "gif" + this.user);
+		if(gfy === null) return;
       var a = new gfyObject(gfy);
       a.init();
     }

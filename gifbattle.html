@@ -128,9 +128,13 @@
        <div class="ui grid">
           <div class="sixteen wide column">
             <form class="add-gif">
+<<<<<<< HEAD
               <div class="ui input fluid">
                 <input type="text" name="text" placeholder="Select your GIF!!!" />
               </div>
+=======
+				<input type="text" name="text" placeholder="Select your GIF!!!" />
+>>>>>>> Massive refactor to allow games to be stored
             </form>
           </div>
         </div>
@@ -141,12 +145,17 @@
           {{#if votingOpen}}
           <form class="vote ui grid">
               {{#if hasntVoted}}
+<<<<<<< HEAD
                  <div class="eight wide column">
                 <button id="voteOne" class="ui button fluid">Vote for {{playerOne}}!</button>
               </div>
               <div class="eight wide column">
                 <button id="voteTwo" class="ui button fluid">Vote for {{playerTwo}}!</button>
               </div>
+=======
+                <a href="#" id="voteOne">Vote for {{playerOne}}!</a>
+                <a href="#" id="voteTwo">Vote for {{playerTwo}}!</a>
+>>>>>>> Massive refactor to allow games to be stored
               {{/if}}
           </form>
           {{/if}}
