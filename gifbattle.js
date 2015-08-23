@@ -119,6 +119,10 @@ if (Meteor.isClient) {
       (Session.get("playerTwo") &&  !Turn.findOne({}).isPlayerOne));
     },
 
+    currentRound: function() {
+      return Turn.findOne({}).round;
+    },
+
     playerOneVotes: function() {
       return Players.findOne({number: 1}).votes
     },
