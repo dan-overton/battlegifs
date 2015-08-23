@@ -116,7 +116,7 @@
         {{#if notAPlayer}}
           <div class="eight wide column">
             <form class="player-two">
-              <p>{{playerOne}} is waiting for battle, become player two:
+              <p>{{playerOne.name}} is waiting for battle, become player two:
               </p>
               <div class="ui input fluid">
                 <input type="text" name="text" placeholder="Enter your name!" />
@@ -146,61 +146,63 @@
         <div class="eight wide column">
           <div class="statistic">
             <div class="value">
-              <img src="http://semantic-ui.com/images/avatar/small/joe.jpg" class="ui circular inline image">
-              {{playerOneVotes}}
+              <img src="/player1.jpg" class="ui circular inline image">
+              {{playerOne.votes}}
             </div>
             <div class="label">
-              {{playerOne}}
+              {{playerOne.name}}
             </div>
           </div>
         </div>
         <div class="eight wide column">
           <div class="statistic">
             <div class="value">
-              <img src="http://semantic-ui.com/images/avatar/small/elliot.jpg" class="ui circular inline image">
-              {{playerTwoVotes}}
+              <img src="/player2.jpg" class="ui circular inline image">
+              {{playerTwo.votes}}
             </div>
             <div class="label">
-              {{playerTwo}}
+              {{playerTwo.name}}
             </div>
           </div>
         </div>
       </div>
-
-      {{#unless votingOpen}}
-       {{#if myTurn}}
-       <div class="ui grid">
-          <div class="sixteen wide column">
-            <form class="add-gif">
-              <div class="ui input fluid">
-                <input type="text" name="text" placeholder="Select your GIF!!!" />
-              </div>
-
-            </form>
-          </div>
-        </div>
-        {{/if}}
-      {{/unless}}
 
         {{#if notAPlayer}}
           {{#if votingOpen}}
           <form class="vote ui grid">
               {{#if hasntVoted}}
               <div class="eight wide column">
-                <button id="voteOne" class="ui button green fluid">Vote for {{playerOne}}!</button>
+                <button id="voteOne" class="ui button green fluid">Vote for {{playerOne.name}}!</button>
               </div>
               <div class="eight wide column">
-                <button id="voteTwo" class="ui button green fluid">Vote for {{playerTwo}}!</button>
+                <button id="voteTwo" class="ui button green fluid">Vote for {{playerTwo.name}}!</button>
               </div>
 
               {{/if}}
           </form>
           {{/if}}
         {{/if}}
+
         <div class="ui progress score-indicator" data-percent="{{progressBar}}">
           <div class="bar" style="transition-duration: 300ms; width: {{progressBar}}%;">
           </div>
         </div>
+
+        {{#unless votingOpen}}
+         {{#if myTurn}}
+         <div class="ui grid">
+            <div class="sixteen wide column">
+              <form class="add-gif">
+                <div class="ui input fluid">
+                  <input type="text" name="text" placeholder="Select your GIF!!!" />
+                </div>
+
+              </form>
+            </div>
+          </div>
+          {{/if}}
+        {{/unless}}
+
     {{/if}}
   {{/unless}}
 </template>
